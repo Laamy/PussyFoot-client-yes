@@ -75,10 +75,10 @@
     <ClCompile Include="Client\Modules\Module\EntityList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Client\Modules\Module\Instabreak.cpp">
+    <ClCompile Include="Client\Modules\Module\PlayerSpoof.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Client\Modules\Module\PlayerSpoof.cpp">
+    <ClCompile Include="Client\Modules\Module\InfiniteAura.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -182,10 +182,10 @@
     <ClInclude Include="Client\Modules\Module\EntityList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Client\Modules\Module\Instabreak.h">
+    <ClInclude Include="Client\Modules\Module\PlayerSpoof.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Client\Modules\Module\PlayerSpoof.h">
+    <ClInclude Include="Client\Modules\Module\InfiniteAura.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

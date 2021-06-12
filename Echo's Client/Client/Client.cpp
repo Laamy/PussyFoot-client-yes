@@ -27,6 +27,7 @@ Client::Client(std::string name) {
 #include "Modules/Module/Coords.h"
 #include "Modules/Module/EntityList.h"
 #include "Modules/Module/PlayerSpoof.h"
+#include "Modules/Module/InfiniteAura.h"
 
 /* */
 
@@ -71,14 +72,15 @@ void Client::init() {
 
 	/* Initialize Modules */
 
-	new PlayerSpoof(this, beta, "PlayerSpoof");
+	new InfiniteAura(this, beta, "InfiniteAura");
 
 	new AirJump(this, exploits, "Airjump");
 	new Killaura(this, exploits, "Killaura");
 
-	new TabGui(this, visual, "HUD");
 	new Coords(this, visual, "Coords");
 	new EntityList(this, visual, "EntityList");
+	new PlayerSpoof(this, visual, "PlayerSpoof");
+	new TabGui(this, visual, "TabGui");
 
 	/*modulesThread = std::thread([this] {wanna test 
 		while (isRunning) {

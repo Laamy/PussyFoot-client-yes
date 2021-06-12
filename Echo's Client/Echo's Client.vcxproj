@@ -160,6 +160,7 @@
     <ClCompile Include="Client\Modules\Module.cpp" />
     <ClCompile Include="Client\Modules\Module\AirJump.cpp" />
     <ClCompile Include="Client\Modules\Module\EntityList.cpp" />
+    <ClCompile Include="Client\Modules\Module\InfiniteAura.cpp" />
     <ClCompile Include="Client\Modules\Module\Killaura.cpp" />
     <ClCompile Include="Client\Modules\Module\Coords.cpp" />
     <ClCompile Include="Client\Modules\Module\PlayerSpoof.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="Client\Modules\Module\AirJump.h" />
     <ClInclude Include="Client\Modules\Module\Coords.h" />
     <ClInclude Include="Client\Modules\Module\EntityList.h" />
+    <ClInclude Include="Client\Modules\Module\InfiniteAura.h" />
     <ClInclude Include="Client\Modules\Module\Killaura.h" />
     <ClInclude Include="Client\Modules\Module\PlayerSpoof.h" />
     <ClInclude Include="Client\Modules\Module\TabGUI.h" />
