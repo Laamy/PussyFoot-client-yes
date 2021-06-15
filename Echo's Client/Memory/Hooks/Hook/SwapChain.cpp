@@ -98,10 +98,10 @@ void SwapChain_Hook::init() {
         Utils::DebugLogF("Failed to create SwapChain Present Hook :/");
     }
 
-    pDevice->Release();
+    /*pDevice->Release();
     pContext->Release();
     pSwapChain->Release();
 
     DestroyWindow(sd.OutputWindow);
-    UnregisterClass(wc.lpszClassName, GetModuleHandle(nullptr));
+    UnregisterClass(wc.lpszClassName, GetModuleHandle(nullptr));*/
 }

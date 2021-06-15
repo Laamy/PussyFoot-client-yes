@@ -1,74 +1,110 @@
 #pragma once
+#include <bitset>
+#include <vector>
+#include <functional>
+
+#include "TextHolder.h"
 
 class Actor {
+public:
+	class Level* getLevel() {
+		return *reinterpret_cast<class Level**>((uintptr_t)(this) + 0x378);
+	}
+
+	bool* onGround() {
+		return reinterpret_cast<bool*>((uintptr_t)(this) + 0x1E0);
+	}
+
+	std::string getType() {
+		return (char*)((uintptr_t)(this) + 0x410);
+	}
+
+	std::string getUsername() {
+		return (char*)((uintptr_t)(this) + 0x920);
+	}
+
+	Vec3* Velocity() {
+		return reinterpret_cast<Vec3*>((uintptr_t)(this) + 0x508);
+	}
+
+	float* stepHeight() {
+		return reinterpret_cast<float*>((uintptr_t)(this) + 0x240);
+	}
+
+	bool* inWater() {
+		return reinterpret_cast<bool*>((uintptr_t)(this) + 0x265);
+	}
+
+	int* lookingEntityID() {
+		return reinterpret_cast<int*>((uintptr_t)(this) + 0x10B8);
+	}
+
+	void setFieldOfView(float v) {
+		*(float*)((uintptr_t)(this) + 0x10F0) = v;
+	}
 private:
 	virtual void Function0();
 	virtual void Function1();
 	virtual void Function2();
 	virtual void Function3();
 public:
-	virtual void serverInitItemStackIds(void);
+	virtual void _serverInitItemStackIds(void);
 	virtual void _doInitialMove(void);
 private:
 	virtual void Function6();
 public:
 	virtual void reset(void);
 	virtual __int64 getOnDeathExperience(void);
+	virtual int getOwnerEntityType(void);
+	virtual void remove(void);
+	virtual void setPos(Vec3*);
 private:
-	virtual void Function9();
-	virtual void Function10();
-	virtual void Function11();
+	virtual void Function12();
 public:
-	virtual void setPos(Vec3 const&);
-private:
-	virtual void Function13();
-public:
-	virtual struct PredictedMovementValues* getPredictedMovementValues(void);
-	//virtual struct StateVectorComponent* getStateVectorComponent(void);
+	virtual __int64 getPredictedMovementValues(void);
+	virtual __int64 getStateVectorComponent(void);
 	virtual Vec3* getPos(void);
-	virtual Vec3* getPosOld(void);
 	virtual Vec3* getPosExtrapolated(float);
-	virtual Vec3* getAttachPos(Vec3 const & ActorLocation, float);
+	virtual Vec3* getAttachPos(__int64 ActorLocation, float);
 	virtual Vec3* getFiringPos(void);
-	virtual void setRot(Vec2 const&);
-	virtual void move(class IActorMovementProxy&, Vec3 const&);
-	virtual void move(Vec3 const&);
+	virtual void setRot(Vec2*);
+	virtual void move(__int64 IActorMovementProxy, Vec3*);
+	virtual void move(Vec3*);
 	virtual Vec3* getInterpolatedRidingPosition(float);
-	virtual Vec2* getInterpolatedBodyRot(float);
-	virtual Vec2* getInterpolatedHeadRot(float);
+	virtual float getInterpolatedBodyRot(float);
+	virtual float getInterpolatedHeadRot(float);
 	virtual float getInterpolatedBodyYaw(float);
 	virtual float getYawSpeedInDegreesPerSecond(void);
 	virtual float getInterpolatedWalkAnimSpeed(float);
-	virtual Vec3 getWorldPosition(void);
-	virtual void checkBlockCollisions(void);
-	virtual void checkBlockCollisions(struct AABB const&, void*/*std::function<void(BlockSource&, Block const&, BlockPos const&, Actor&)>*/);
+	virtual Vec3* getWorldPosition(void);
+private:
+	virtual bool checkBlockCollisions(AABB*, std::function<void(class BlockSource*, class Block*, Vec3*, Actor*)>);
+public:
+	virtual void updateEntityInside(void);
+	virtual void updateEntityInside(AABB*);
 	virtual bool isFireImmune(void);
 private:
 	virtual void Function33();
-	virtual void Function34();
 public:
-	virtual void teleportTo(Vec3 const&, bool, int, int);
-	virtual void tryTeleportTo(Vec3 const&, bool, bool, int, int);
-	virtual void chorusFruitTeleport(Vec3 const&);
-	virtual void lerpTo(Vec3 const&, Vec2 const&, int);
-	virtual void lerpMotion(Vec3 const&);
-private:
-	virtual void Function40();
-public:
+	virtual bool blockedByShield(__int64 ActorDamageSource, Actor*);
+	virtual void teleportTo(Vec3*, bool, int, int);
+	virtual void tryTeleportTo(Vec3*, bool, bool, int, int);
+	virtual void chorusFruitTeleport(Vec3*);
+	virtual void lerpTo(Vec3*, Vec2*, int);
+	virtual void lerpMotion(Vec3*);
+	virtual void tryCreateAddActorPacket(void);
 	virtual void normalTick(void);
 	virtual void baseTick(void);
 	virtual void rideTick(void);
-	virtual void positionRider(Actor&, float);
+	virtual void positionRider(Actor*, float);
 	virtual float getRidingHeight(void);
-	virtual void startRiding(Actor&);
-	virtual void addRider(Actor&);
-	virtual void flagRiderToRemove(Actor&);
-private:
-	virtual void Function49();
-public:
-	virtual bool intersects(Vec3 const&, Vec3 const&);
-	virtual bool isFree(Vec3 const&);
-	virtual bool isFree(Vec3 const&, float);
+	virtual void startRiding(Actor*);
+	virtual void addRider(Actor*);
+	virtual void flagRiderToRemove(Actor*);
+	virtual void getExitTip(std::basic_string<char, std::char_traits<char>, std::allocator<char>> const&, __int64 InputMode);
+	virtual bool intersects(Vec3*, Vec3*);
+	virtual bool isFree(Vec3*);
+	virtual bool isFree(Vec3*, float);
 	virtual bool isInWall(void);
 	virtual bool isInvisible(void);
 	virtual bool canShowNameTag(void);
@@ -76,90 +112,87 @@ private:
 	virtual void Function56();
 public:
 	virtual void setNameTagVisible(bool);
-	virtual std::string getNameTag(void);
-	virtual __int64 getNameTagAsHash(void);
 private:
-	virtual void Function60();
-	virtual void Function61();
+	virtual void Function57();
 public:
+	virtual TextHolder* getNameTag(void);
+private:
+	virtual void Function59();
+public:
+	virtual class TextHolder* getFormattedNameTag(void);
+	virtual void filterFormattedNameTag(__int64 UIProfanityContext);
 	virtual void setNameTag(std::string const&);
 private:
 	virtual void Function63();
-	virtual void Function64();
-	virtual void Function65();
 public:
+	virtual void setScoreTag(std::string const&);
+	virtual TextHolder* getScoreTag(void);
 	virtual bool isInWater(void);
 	virtual bool hasEnteredWater(void);
 	virtual bool isImmersedInWater(void);
-	virtual bool isInWaterOrRain(void);
 	virtual bool isInLava(void);
-	virtual bool isUnderLiquid(class MaterialType);
+	virtual bool isUnderLiquid(__int64 MaterialType);
 	virtual bool isOverWater(void);
-	virtual void setBlockMovementSlowdownMultiplier(Vec3 const&);
+	virtual void setBlockMovementSlowdownMultiplier(Vec3*);
 	virtual void resetBlockMovementSlowdownMultiplier(void);
-private:
-	virtual void Function75();
-public:
+	virtual float getCameraOffset(void);
 	virtual float getShadowHeightOffs(void);
 	virtual float getShadowRadius(void);
-	virtual Vec3 getHeadLookVector(float);
+	virtual Vec3* getHeadLookVector(float);
 private:
-	virtual void Function79();
+	virtual void Function78();
 public:
-	virtual bool canSee(Vec3 const&);
-	virtual bool canSee(Actor const&);
+	virtual bool canSee(Vec3*);
+	virtual bool canSee(Actor*);
 	virtual bool isSkyLit(float);
-	virtual bool getBrightness(float);
+	virtual float getBrightness(float);
 private:
+	virtual void Function83();
 	virtual void Function84();
-	virtual void Function85();
 public:
-	virtual bool onAboveBubbleColumn(bool);
-	virtual bool onInsideBubbleColumn(bool);
+	virtual void onAboveBubbleColumn(bool);
+	virtual void onInsideBubbleColumn(bool);
 	virtual bool isImmobile(void);
 	virtual bool isSilent(void);
-	virtual bool isPickable(void);
+	virtual bool isPickable(void); /* Item Actor */
 private:
-	virtual void Function91();
+	virtual void Function90();
 public:
 	virtual bool isSleeping(void);
 private:
-	virtual void Function93();
+	virtual void Function92();
 public:
 	virtual void setSneaking(bool);
 	virtual bool isBlocking(void);
-private:
-	virtual void Function96();
-public:
+	virtual bool isDamageBlocked(__int64 ActorDamageSource);
 	virtual bool isAlive(void);
 	virtual bool isOnFire(void);
 	virtual bool isOnHotBlock(void);
 private:
-	virtual void Function100();
+	virtual void Function99();
 public:
 	virtual bool isSurfaceMob(void);
 private:
+	virtual void Function101();
 	virtual void Function102();
 	virtual void Function103();
-	virtual void Function104();
 public:
+	virtual bool isAffectedByWaterBottle(void);
 	virtual bool canAttack(Actor*, bool);
-	virtual void setTarget(Actor*);
+	virtual bool setTarget(Actor*);
 private:
 	virtual void Function107();
-	virtual void Function108();
 public:
+	virtual bool isValidTarget(Actor*);
 	virtual void attack(Actor*);
-	virtual void performRangedAttack(Actor&, float);
-private:
-	virtual void Function111();
-public:
+	virtual float performRangedAttack(Actor*, float);
+	virtual void adjustDamageAmount(int);
 	virtual int getEquipmentCount(void);
 	virtual void setOwner(__int64 ActorUniqueID);
 	virtual void setSitting(bool);
 private:
+	virtual void Function114();
 	virtual void Function115();
-	virtual void Function116();
 public:
 	virtual __int64 getInventorySize(void);
 	virtual __int64 getEquipSlots(void);
@@ -170,276 +203,170 @@ public:
 	virtual bool isJumping(void);
 	virtual bool isEnchanted(void);
 private:
+	virtual void Function124();
 	virtual void Function125();
-	virtual void Function126();
 public:
 	virtual bool shouldRender(void);
-	virtual bool isInvulnerableTo(class ActorDamageSource const&);
-	virtual class DamageCause getBlockDamageCause(class Block const&);
-public:
-	virtual void actuallyHurt(int, class ActorDamageSource const&, bool);
+	virtual bool isInvulnerableTo(__int64 ActorDamageSource);
+	virtual __int64 getBlockDamageCause(Block*);
+	virtual void actuallyHurt(int, __int64 ActorDamageSource, bool);
 	virtual void animateHurt(void);
 	virtual void doFireHurt(int);
 	virtual void onLightningHit(void);
-private:
-	virtual void Function134();
-public:
+	virtual void onBounceStarted(Vec3i* blockPos, Block*);
 	virtual void feed(int);
-	virtual void handleEntityEvent(class ActorEvent, int);
-	virtual float getPickRadius(void);
+	virtual void handleEntityEvent(__int64 ActorEvent, int);
+	virtual float getPickRadius(void); /* Item Actor?? */
 	virtual __int64 getActorRendererId(void);
-	virtual void spawnAtLocation(class ItemStack const&, float);
-	virtual void spawnAtLocation(class Block const&, int, float);
-	virtual void spawnAtLocation(class Block const&, int);
+	virtual void spawnAtLocation(ItemStack*, float);
+	virtual void spawnAtLocation(Block*, int, float);
+	virtual void spawnAtLocation(Block*, int);
 	virtual void spawnAtLocation(int, int, float);
 	virtual void spawnAtLocation(int, int);
 	virtual void despawn(void);
-	virtual void killed(Actor&);
-private:
-	virtual void Function146();
-public:
-	virtual void setArmor(int ArmorSlot, ItemStack const&);
-	virtual class ItemStack getArmor(int ArmorSlot);
-	virtual int /*enum ArmorType*/ getArmorMaterialTypeInSlot(int ArmorSlot);
-	virtual int /*enum ArmorTextureType*/ getArmorMaterialTextureTypeInSlot(int ArmorSlot);
-	virtual void getArmorColorInSlot(int ArmorSlot, int);
-	virtual class ItemStack getEquippedSlot(int EquipmentSlot);
-	virtual void setEquippedSlot(int EquipmentSlot, class ItemStack const&);
-	virtual class ItemStack* getCarriedItem(void);
-	virtual void setCarriedItem(ItemStack const&);
-	virtual void setOffhandSlot(ItemStack const&);
-	virtual class ItemStack* getEquippedTotem(void);
+	virtual void killed(Actor*);
+	virtual void awardKillScore(Actor*, int);
+	virtual void setArmor(int ArmorSlot, ItemStack*);
+	virtual ItemStack* getArmor(int ArmorSlot);
+	virtual __int64 getArmorMaterialTypeInSlot(int ArmorSlot);
+	virtual __int64 getArmorMaterialTextureTypeInSlot(int ArmorSlot);
+	virtual __int64 getArmorColorInSlot(int ArmorSlot, int);
+	virtual ItemStack* getEquippedSlot(int EquipmentSlot);
+	virtual void setEquippedSlot(int EquipmentSlot, ItemStack*);
+	virtual ItemStack* getSelectedItem(void);
+	virtual void setCarriedItem(ItemStack*);
+	virtual void setOffhandSlot(ItemStack*);
+	virtual ItemStack* getEquippedTotem(void);
 	virtual void consumeTotem(void);
-	virtual void save(class CompoundTag&);
-	virtual void saveWithoutId(class CompoundTag&);
-	virtual void load(class CompoundTag const&, class DataLoadHelper&);
-private:
-	virtual void Function162();
-public:
+	virtual void save(__int64 CompoundTag);
+	virtual void saveWithoutId(__int64 CompoundTag);
+	virtual void load(__int64 CompoundTag, __int64 DataLoadHelper);
+	virtual void loadLinks(/*__int64 CompoundTag, std::vector<__int64 ActorLink, std::allocator<__int64 ActorLink>>, DataLoadHelper*/);
 	virtual __int64 getEntityTypeId(void);
-private:
-	virtual void Function164();
-public:
+	virtual __int64 getRawName(void);
 	virtual __int64 getSourceUniqueID(void);
-	virtual void setOnFire(int);
+	virtual void setOnFire(int duration);
 	virtual void extinguishFire(void);
 	virtual void thawFreezeEffect(void);
-	virtual struct AABB getHandleWaterAABB(void);
-	virtual void handleInsidePortal(Vec3i const&);
-	virtual __int64 getPortalCooldown(void);
+	virtual bool canFreeze(void);
+	virtual bool isWearingLeatherArmor(void);
+	virtual AABB* getHandleWaterAABB(void);
+	virtual void handleInsidePortal(Vec3i* BlockPos);
+	virtual __int64 getId(void);
+	virtual __int64 getPortalWaitTime(void);
+	virtual DWORD getDimensionId(void);
+	virtual bool canChangeDimensions(void);
 private:
-	virtual void Function172();
+	virtual void Function176();
 public:
-	virtual class AutomaticID getDimensionId(void);
-private:
-	virtual void Function174();
-	virtual void Function175();
-public:
-	virtual void changeDimension(class AutomaticID);
-	virtual __int64 _getSourceUniqueID(void);
+	virtual void changeDimension(int Dimension, bool);
+	virtual __int64 getControllingPlayer(void);
 	virtual void checkFallDamage(float, bool);
-	virtual void causeFallDamage(float, float, class ActorDamageSource);
+	virtual void causeFallDamage(float, float, __int64 ActorDamageSource);
 	virtual void handleFallDistanceOnServer(float, float, bool);
+	virtual void playSynchronizedSound(__int64 LevelSoundEvent, Vec3*, int, bool);
+	virtual void playSynchronizedSound(__int64 LevelSoundEvent, Vec3*, Block*, bool);
+	virtual void onSynchedDataUpdate(int);
+	virtual void canAddRider(Actor*);
 private:
-	virtual void Function181();
-	virtual void Function182();
-	virtual void Function183();
-public:
-	virtual bool canAddRider(Actor&);
-private:
-	virtual void Function185();
 	virtual void Function186();
 	virtual void Function187();
-	virtual void Function188();
+public:
+	virtual bool inCaravan(void);
+private:
+	virtual void Function189();
 public:
 	virtual void tickLeash(void);
-	virtual void sendMotionPacketIfNeeded(void);
 private:
 	virtual void Function191();
+	virtual void Function192();
 public:
 	virtual void stopRiding(bool, bool, bool);
 	virtual void startSwimming(void);
 	virtual void stopSwimming(void);
-private:
-	virtual void Function195();
-public:
+	virtual __int64 buildDebugInfo(void);
 	virtual int getCommandPermissionLevel(void);
-private:
-	virtual void Function197();
-	virtual void Function198();
-	virtual void Function199();
-public:
+	virtual __int64 getMutableAttribute(__int64 Attribute);
+	virtual __int64 getAttribute(int Attribute);
+	virtual __int64 getDeathTime(void);
 	virtual void heal(int);
 	virtual bool isInvertedHealAndHarm(void);
-	virtual bool canBeAffected(class MobEffectInstance const&);
+	virtual bool canBeAffected(__int64 MobEffectInstance);
 	virtual bool canBeAffected(int);
-	virtual bool canBeAffectedByArrow(class MobEffectInstance const&);
-	virtual bool onEffectAdded(class MobEffectInstance&);
-	virtual bool onEffectUpdated(class MobEffectInstance const&);
-	virtual bool onEffectRemoved(class MobEffectInstance&);
+	virtual bool canBeAffectedByArrow(__int64 MobEffectInstance);
+	virtual void onEffectAdded(__int64 MobEffectInstance);
+	virtual void onEffectUpdated(__int64 MobEffectInstance);
+	virtual void onEffectRemoved(__int64 MobEffectInstance);
 	virtual __int64 getAnimationComponent(void);
-	virtual void openContainerComponent(class Player&);
+	virtual void openContainerComponent(Player*);
 	virtual void swing(void);
-public:
-	virtual void useItem(class ItemStackBase&, class ItemUseMethod, bool);
+	virtual void useItem(__int64 ItemStackBase, __int64 ItemUseMethod, bool);
 private:
-	virtual void Function212();
 	virtual void Function213();
 	virtual void Function214();
+	virtual void Function215();
 public:
 	virtual float getMapDecorationRotation(void);
-	virtual float getRiderYRotation(Actor const&);
-public:
+	virtual float getRiderYRotation(Actor*);
 	virtual float getYHeadRot(void);
 	virtual bool isWorldBuilder(void);
 	virtual bool isCreative(void);
 	virtual bool isAdventure(void);
-public:
-	virtual void add(class ItemStack&);
-	virtual void drop(class ItemStack const&, bool);
-	virtual __int64 getInteraction(class Player&, class ActorInteraction&, Vec3 const&);
+	virtual void add(ItemStack*);
+	virtual void drop(ItemStack*, bool);
+	virtual __int64 getInteraction(Player*, __int64 ActorInteraction, Vec3*);
 private:
 	virtual void Function225();
 	virtual void Function226();
 public:
-	virtual void setSize(float, float);
+	virtual void setSize(float width, float height);
 	virtual __int64 getLifeSpan(void);
-private:
 	virtual void onOrphan(void);
-public:
-	virtual void wobble();
+	virtual void wobble(void);
 	virtual bool wasHurt(void);
 	virtual void startSpinAttack(void);
+	virtual void stopSpinAttack(void);
+	virtual bool setDamageNearbyMobs(bool);
 private:
-	virtual void Function233();
+	virtual void Function335();
 public:
-	virtual void setDamageNearbyMobs(bool);
-private:
-	virtual void Function235();
-public:
-	virtual void reloadLootTable(class EquipmentTableDefinition const&);
+	virtual void reloadLootTable(__int64 EquipmentTableDefinition);
 	virtual void reloadLootTable(void);
+	virtual __int64 getLootTable(void);
 private:
-	virtual void Function238();
+	virtual void Function339();
+	virtual void Function340();
 public:
 	virtual void kill(void);
-	virtual void die(ActorDamageSource const&);
+	virtual void die(__int64 ActorDamageSource);
 	virtual bool shouldTick(void);
 	virtual void createMovementProxy(void);
+	virtual __int64 getMovementProxy(void);
 	virtual float getNextStep(float);
+	virtual void updateEntitySpecificMolangVariables(__int64 RenderParams);
+	virtual void useWebsocketEncryption(void);
 private:
-	virtual void Function244();
-public:
-	virtual bool shouldTryMakeStepSound(void);
-private:
-	virtual void Function246();
+	virtual void Function349();
 public:
 	virtual bool outOfWorld(void);
-	virtual void _hurt(class ActorDamageSource const&, int, bool, bool);
-	virtual void markHurt(void);
+	virtual void _hurt(__int64 ActorDamageSource, int, bool, bool);
+	virtual void markHurt(void); /* Map */
+	virtual __int64 _getAnimationComponent(__int64 /*std::shared_ptr<class AnimationComponent>*/, __int64 AnimationComponentGroup);
+	virtual void readAdditionalSaveData(__int64 CompoundTag, __int64 DataLoadHelper);
+	virtual void addAdditionalSaveData(__int64 CompoundTag);
+	virtual void _playStepSound(Vec3i* BlockPos, Block*);
+	virtual void _playFlySound(Vec3i* BlockPos, Block*);
 private:
-	virtual void Function250();
-	virtual void Function251();
-public:
-	virtual void _playStepSound(Vec3i const&, Block const&);
-	virtual void _playFlySound(Vec3i const&, Block const&);
-private:
-	virtual void Function254();
+	virtual void Function358();
 public:
 	virtual void checkInsideBlocks(float);
-	virtual void pushOutOfBlocks(Vec3 const&);
+	virtual void pushOutOfBlocks(Vec3*);
 	virtual void updateWaterState(void);
 	virtual void doWaterSplashEffect(void);
 	virtual void spawnTrailBubbles(void);
 	virtual void updateInsideBlock(void);
-	virtual __int64 getLootTable(void);
-private:
-	virtual void Function262();
-public:
 	virtual void _removeRider(__int64 ActorUniqueID, bool, bool, bool);
+	virtual void _onSizeUpdated(void);
 private:
-	virtual void onSizeUpdated(void);
-	virtual void Function265();
-public:
-	__int64 getActorId() {
-		static unsigned int offset = 0;
-		if (offset == NULL)
-			offset = *reinterpret_cast<int*>(Utils::FindSig("48 8B 82 ? ? ? ? 48 39 01 75 03 B0 01 C3") + 3);
-		uintptr_t addr = (uintptr_t)(this) + offset;
-		return *reinterpret_cast<__int64*>(addr);
-	}
-
-	AABB* getAABB() {
-		static unsigned int offset = 0;
-		if (offset == NULL)
-			offset = *reinterpret_cast<int*>(Utils::FindSig("F3 0F 11 81 ? ? ? ? F3 0F 10 42 ? F3 0F 58 81 ? ? ? ? F3 0F 11 81 ? ? ? ? F3 0F 10 42") + 4);
-		return reinterpret_cast<AABB*>((uintptr_t)(this) + offset);
-	}
-
-	Vec2* collision() {
-		static unsigned int offset = 0;
-		if (offset == NULL)
-			offset = *reinterpret_cast<int*>(Utils::FindSig("0F 2E BB ? ? ? ? 75 0D 0F 2E B3 ? ? ? ?") + 3);
-		return reinterpret_cast<Vec2*>((uintptr_t)(this) + offset);
-	}
-
-	Vec3* velocity() {
-		static unsigned int offset = 0x4DC;
-		return reinterpret_cast<Vec3*>((uintptr_t)(this) + offset);
-	}
-
-	Vec2* bodyRot() {
-		static unsigned int offset = 0;
-		if (offset == NULL)
-			offset = *reinterpret_cast<int*>(Utils::FindSig("F3 0F 10 89 ? ? ? ? 48 8B FA F3 0F 10 81 ? ? ? ? 48 8B D9") + 4);
-		return reinterpret_cast<Vec2*>((uintptr_t)(this) + offset);
-	}
-
-	bool* onGround() {
-		static unsigned int offset = 0;
-		if (offset == NULL)
-			offset = *reinterpret_cast<int*>(Utils::FindSig("0F B6 80 ? ? ? ? C3 CC CC CC CC 48 8B 41 ? F3") + 3);
-		return reinterpret_cast<bool*>((uintptr_t)(this) + offset);
-	}
-
-	float* stepHeight() {
-		static unsigned int offset = 0;
-		if (offset == NULL)
-			offset = *reinterpret_cast<int*>(Utils::FindSig("F3 0F 10 ? ? ? ? ? C3 CC CC CC 48 8B 41 ? 88 90 ? ? ? ? C3") + 4);
-		return reinterpret_cast<float*>((uintptr_t)(this) + offset);
-	}
-
-	class PlayerInventory* getSupplies() {
-		static unsigned int offset = 0;
-		if (offset == NULL) {
-			offset = *reinterpret_cast<int*>(Utils::FindSig("48 8B 8B ? ? ? ? 8B 47 ? 8B") + 3);
-		}
-		return *reinterpret_cast<class PlayerInventory**>((uintptr_t)(this) + offset);
-	}
-	class BlockSource* getRegionConst() {
-		static unsigned int offset = 0;
-		if (offset == NULL)
-			offset = *reinterpret_cast<int*>(Utils::FindSig("48 8B 97 ? ? ? ? 48 8B ? ? E8 ? ? ? ? 90") + 3);
-		return *reinterpret_cast<class BlockSource**>((uintptr_t)(this) + offset);
-	}
-
-	class Dimension* getDimension() {
-		return *reinterpret_cast<class Dimension**>((uintptr_t)(this) + 0x350);
-	}
-
-	class Level* getMultiPlayerLevel() {
-		return *reinterpret_cast<class Level**>((uintptr_t)(this) + 0x378);
-	}
-
-	void _updateOwnerChunk() {
-		using UpdateOwnerChunk = void(__thiscall*)(Actor*);
-		static UpdateOwnerChunk _UpdateOwnerChunk = reinterpret_cast<UpdateOwnerChunk>(Utils::FindSig("48 89 5C 24 ? 48 89 74 24 ? 57 48 81 EC ? ? ? ? 48 8B D9 48 8B 89 ? ? ? ? 48 85 C9"));
-		_UpdateOwnerChunk(this);
-	}
-
-	void setInvisible(bool isTrue) {
-		using SI = void(__thiscall*)(Actor*, bool);
-		static SI _SI = reinterpret_cast<SI>(Utils::FindSig("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC 20 0F B6 FA 48"));
-		_SI(this, isTrue);
-	}
+	virtual void Function367();
 };

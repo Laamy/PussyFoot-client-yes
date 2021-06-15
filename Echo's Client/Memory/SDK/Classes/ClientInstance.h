@@ -14,6 +14,8 @@
 #include "LoopbackPacketSender.h"
 #include "Packet.h"
 
+#include "TextHolder.h"
+
 class ClientInstance {
 public:
 	class Player* GetLocalPlayer() {

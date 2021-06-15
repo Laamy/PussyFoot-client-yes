@@ -20,7 +20,7 @@ void EntityList::onRender(class Renderer* renderer) {
 	auto size = instance->guiData()->GuiScale() * 10;
 	Vec2 res = instance->guiData()->res;
 
-	auto level = player->getMultiPlayerLevel();
+	auto level = player->getLevel();
 	auto entities = level->getEntities();
 	int offset = 0;
 	for (auto ent : entities) {
@@ -35,7 +35,6 @@ void EntityList::onRender(class Renderer* renderer) {
 		Vec2 tPos = Vec2(4, res.y - (renderer->textHeight(t, size) + (instance->guiData()->GuiScale() * 12)) - (2 * 6));
 		renderer->drawString(t, size, tPos, textColour);
 	} else {
-
 		std::string text("No Entities");
 		std::wstring t(text.begin(), text.end());
 		float len = renderer->textWidth(t, size);

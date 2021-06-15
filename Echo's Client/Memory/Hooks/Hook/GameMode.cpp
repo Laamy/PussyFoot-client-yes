@@ -21,8 +21,8 @@ void GameMode_Hook::init() {
 
 	Utils::DebugLogF("Preparing GameMode Hook");
 
-	uintptr_t sigAddr = Utils::FindSig("48 8D 05 ? ? ? ? 48 8B D9 48 89 01 8B FA 48 8B 89 ? ? ? ? 48 85 C9 74 0A 48 8B 01 BA ? ? ? ? FF 10 48 8B 8B ? ? ? ?");
-	if (!sigAddr) return;
+	uintptr_t sigAddr = Utils::FindSig("48 8D 05 ? ? ? ? 48 8B D9 48 89 01 8B FA 48 8B 89 ? ? ? ? 48 85 C9 74 ? 48 8B 01 BA ? ? ? ? FF 10 48 8B 8B");
+	if (!sigAddr) return Utils::DebugLogF("Unable to find address!");
 	int offset = *reinterpret_cast<int*>(sigAddr + 3);
 	uintptr_t** VTable = reinterpret_cast<uintptr_t**>(sigAddr + offset + 7);
 

@@ -26,7 +26,7 @@ void callback(uint64_t key, bool isDown) {
 void KeyItem_Hook::init() {
 	kClient = client;
 	uintptr_t sigAddr = Utils::FindSig("48 89 5C 24 ? 57 48 83 EC ? 8B 05 ? ? ? ? 8B DA");
-	if (!sigAddr) return;
+	if (!sigAddr) return Utils::DebugLogF("Unable to find address!");
 	Utils::DebugLogF("Preparing Key Hook!");
 	if (MH_CreateHook((void*)sigAddr, &callback, reinterpret_cast<LPVOID*>(&_AVKeyItem)) == MH_OK) {
 		MH_EnableHook((void*)sigAddr);

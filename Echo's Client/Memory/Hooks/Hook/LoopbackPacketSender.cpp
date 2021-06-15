@@ -18,8 +18,8 @@ void callback(LoopbackPacketSender* _this, Packet* packet) {
 void Loopback_Hook::init() {
 	lClient = client;
 	Utils::DebugLogF("Preparing to hook onto the Loopback sendToServer");
-	uintptr_t sigAddr = Utils::FindSig("48 8B 41 10 4C 8B 09 4C 8B 40 48 41 80 B8 ? ? ? ? ? 74 04 49 FF 61 30 ");
-	if (!sigAddr) return;
+	uintptr_t sigAddr = Utils::FindSig("48 8B 41 10 4C 8B 09 4C 8B 40 ? 41 80 B8 ? ? ? ? ? 74 04 49 FF 61 30");
+	if (!sigAddr) return Utils::DebugLogF("Unable to find address!");
 	if (MH_CreateHook((void*)sigAddr, &callback, reinterpret_cast<LPVOID*>(&_Loopback)) == MH_OK) {
 		MH_EnableHook((void*)sigAddr);
 		Utils::DebugLogF("Successfully completed Loopback Hook!");

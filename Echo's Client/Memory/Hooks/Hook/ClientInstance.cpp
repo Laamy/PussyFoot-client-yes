@@ -21,7 +21,7 @@ void CInstance_Hook::init() {
 	cClientI = client;
 	Utils::DebugLogF("Preparing to hook onto the Client Instance");
 	uintptr_t sigAddr = Utils::FindSig("48 8B 89 ? ? ? ? 48 85 C9 ? ? 33 C0 48 8B 5C ? ?");
-	if (!sigAddr) return;
+	if (!sigAddr) return Utils::DebugLogF("Unable to find address!");
 	if (MH_CreateHook((void*)sigAddr, &CInstance_Callback, reinterpret_cast<LPVOID*>(&_CInstance)) == MH_OK) {
 		MH_EnableHook((void*)sigAddr);
 		Utils::DebugLogF("Successfully completed Client Instance Hook!");

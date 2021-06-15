@@ -1,8 +1,7 @@
 #include "Client/Client.h"
 
-
 void init(LPVOID lpParam) {
-    Client* client = new Client("Echo's Client");
+    Client* client = new Client("JarJar");
     client->hModule = (HMODULE)lpParam;
     client->init();
 }

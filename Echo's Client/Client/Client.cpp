@@ -28,6 +28,9 @@ Client::Client(std::string name) {
 #include "Modules/Module/EntityList.h"
 #include "Modules/Module/PlayerSpoof.h"
 #include "Modules/Module/InfiniteAura.h"
+#include "Modules/Module/InsideAura.h"
+#include "Modules/Module/EmptyModule.h"
+#include "Modules/Module/Zoom.h"
 
 /* */
 
@@ -66,21 +69,29 @@ void Client::init() {
 
 	/* Initialize Categories */
 
-	Category* beta = new Category(this, "P3 Beta");
+	Category* beta = new Category(this, "JarJar Beta");
 	Category* exploits = new Category(this, "Exploits");
 	Category* visual = new Category(this, "Visual");
 
 	/* Initialize Modules */
 
 	new InfiniteAura(this, beta, "InfiniteAura");
+	new InsideAura(this, beta, "InsideYoMamaAura");
+	new EmptyModule(this, beta, "");
+	new EmptyModule(this, beta, "");
+	new EmptyModule(this, beta, "");
 
 	new AirJump(this, exploits, "Airjump");
 	new Killaura(this, exploits, "Killaura");
+	new EmptyModule(this, exploits, "");
+	new EmptyModule(this, exploits, "");
+	new EmptyModule(this, exploits, "");
 
 	new Coords(this, visual, "Coords");
 	new EntityList(this, visual, "EntityList");
 	new PlayerSpoof(this, visual, "PlayerSpoof");
 	new TabGui(this, visual, "TabGui");
+	new Zoom(this, visual, "Zoom");
 
 	/*modulesThread = std::thread([this] {wanna test 
 		while (isRunning) {

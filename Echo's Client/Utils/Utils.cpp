@@ -1,4 +1,6 @@
 #include "Utils.h"
+#include "../Client/Client.h"
+Player* player;
 
 uintptr_t Utils::FindMultiLvlPtr(uintptr_t baseAddr, std::vector<unsigned int> offsets) {
 	uintptr_t c;
@@ -98,6 +100,8 @@ void Utils::DebugLogF(const char* output, const char* fPath, bool deleteIfFirstL
 		fileOutput.open(dirP.c_str(), std::ios_base::app);
 		fileOutput << output << std::endl;
 		fileOutput.close();
+		if (player != nullptr)
+			player->printToChat("[JarJar]: " + (std::string)output);
 
 		return;
 	} catch (...) {};
