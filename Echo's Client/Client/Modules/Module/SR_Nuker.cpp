@@ -14,7 +14,6 @@ void SR_Nuker::onEnable() {
 				tempPos.y = (int)player->getPos()->y + y;
 				tempPos.z = (int)player->getPos()->z + z;
 				Positions.push_back(Vec3(tempPos.x, tempPos.y, tempPos.z));
-				player->printToChat("[JarJar]: " + std::to_string(tempPos.x) + "," + std::to_string(tempPos.y) + "," + std::to_string(tempPos.z));
 			}
 		}
 	}
@@ -27,12 +26,15 @@ void SR_Nuker::onDisable() {
 void SR_Nuker::onGmTick(GameMode* GM) {
 	if (player == nullptr || GM == nullptr)
 		return;
+	if (player->getSelectedItem()->getId() <= 0)
+		return;
 	if (Positions.size() <= 0) {
 		Positions.clear();
 		this->isEnabled = false;
 	}
 	else {
-		GM->buildBlock(Vec3i(Positions.back().x, Positions.back().y, Positions.back().z), 0x07);
+		GM->startBuildBlock(Vec3i(Positions.back().x, Positions.back().y, Positions.back().z), 1);
+		GM->stopBuildBlock();
 		Positions.pop_back();
 	}
 }
