@@ -50,8 +50,16 @@ void Renderer::drawString(std::wstring t, float size, Vec2 pos, _RGBA rgb) {
     float width = textWidth(t, size);
     float height = textHeight(t, size);
 
-    writeFactory->CreateTextFormat(L"Arial", NULL, DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, size, L"", &textFormat);
-    d2dRenderTarget->CreateSolidColorBrush(D2D1::ColorF(rgb.r, rgb.g, rgb.b, rgb.a), &brush);
+    if (writeFactory->CreateTextFormat(L"Arial", NULL, DWRITE_FONT_WEIGHT_NORMAL, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, size, L"en-US", &textFormat) != S_OK)
+        return;
+
+    textFormat->SetWordWrapping(DWRITE_WORD_WRAPPING_NO_WRAP);
+
+    if (d2dRenderTarget->CreateSolidColorBrush(D2D1::ColorF(rgb.r, rgb.g, rgb.b, rgb.a), &brush) != S_OK) {
+        SAFE_RELEASE(textFormat);
+        return;
+    }
+
     d2dRenderTarget->DrawText(text, wcslen(text), textFormat, D2D1::RectF(pos.x, pos.y, pos.x + 1000, pos.y + 1000), brush);
 
     SAFE_RELEASE(textFormat);

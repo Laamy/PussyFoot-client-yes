@@ -3,6 +3,8 @@
 
 class Zoom : public Module {
 public:
-	Zoom(class Client* client, class Category* category, std::string name) : Module(client, category, name) {};
-	void onGmTick(class GameMode*);
+	Zoom(class Client* client, class Category* category, std::string name) : Module(client, category, name, 0x43) {};
+	void onLoop();
+	void onEnable();
+	void onDisable();
 };

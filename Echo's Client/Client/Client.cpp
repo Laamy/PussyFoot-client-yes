@@ -31,6 +31,15 @@ Client::Client(std::string name) {
 #include "Modules/Module/InsideAura.h"
 #include "Modules/Module/EmptyModule.h"
 #include "Modules/Module/Zoom.h"
+#include "Modules/Module/Jetpack.h"
+#include "Modules/Module/Glide.h"
+#include "Modules/Module/Jesus.h"
+#include "Modules/Module/AirStuck.h"
+#include "Modules/Module/Criticals.h"
+#include "Modules/Module/Phase.h"
+#include "Modules/Module/Nuker.h"
+#include "Modules/Module/ReverseNuker.h"
+#include "Modules/Module/SR_Nuker.h"
 
 /* */
 
@@ -69,29 +78,50 @@ void Client::init() {
 
 	/* Initialize Categories */
 
-	Category* beta = new Category(this, "JarJar Beta");
-	Category* exploits = new Category(this, "Exploits");
+	Category* combat = new Category(this, "Combat");
+	Category* movement = new Category(this, "Movement");
+	Category* player = new Category(this, "Player");
 	Category* visual = new Category(this, "Visual");
+	Category* world = new Category(this, "World");
+	Category* other = new Category(this, "Other");
 
 	/* Initialize Modules */
+	
+	new InsideAura(this, combat, "InsideAura");
+	new Killaura(this, combat, "Killaura");
+	new Criticals(this, combat, "Criticals");
+	new Module(this, combat, "");
+	new Module(this, combat, "");
 
-	new InfiniteAura(this, beta, "InfiniteAura");
-	new InsideAura(this, beta, "InsideYoMamaAura");
-	new EmptyModule(this, beta, "");
-	new EmptyModule(this, beta, "");
-	new EmptyModule(this, beta, "");
+	new Jetpack(this, movement, "Jetpack");
+	new Glide(this, movement, "Glide");
+	new Jesus(this, movement, "Jesus");
+	new AirStuck(this, movement, "AirStuck");
+	new Module(this, movement, "");
 
-	new AirJump(this, exploits, "Airjump");
-	new Killaura(this, exploits, "Killaura");
-	new EmptyModule(this, exploits, "");
-	new EmptyModule(this, exploits, "");
-	new EmptyModule(this, exploits, "");
+	new AirJump(this, player, "Airjump");
+	new Module(this, player, "");
+	new Module(this, player, "");
+	new Module(this, player, "");
+	new Module(this, player, "");
 
 	new Coords(this, visual, "Coords");
 	new EntityList(this, visual, "EntityList");
 	new PlayerSpoof(this, visual, "PlayerSpoof");
 	new TabGui(this, visual, "TabGui");
 	new Zoom(this, visual, "Zoom");
+
+	new InfiniteAura(this, world, "InfiniteAura");
+	new Nuker(this, world, "Nuker");
+	new ReverseNuker(this, world, "ReverseNuker");
+	new SR_Nuker(this, world, "SR_Nuker");
+	new Module(this, world, "");
+
+	new Phase(this, other, "Phase");
+	new Module(this, other, "");
+	new Module(this, other, "");
+	new Module(this, other, "");
+	new Module(this, other, "");
 
 	/*modulesThread = std::thread([this] {wanna test 
 		while (isRunning) {

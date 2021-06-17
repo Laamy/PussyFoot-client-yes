@@ -12,7 +12,10 @@ public:
 	}
 
 	bool* onGround() {
-		return reinterpret_cast<bool*>((uintptr_t)(this) + 0x1E0);
+		static unsigned int offset = NULL;
+		if (offset == NULL)
+			offset = *reinterpret_cast<int*>(Utils::FindSig("0F B6 80 ? ? ? ? C3 CC CC CC CC 48 8B 41 ? F3") + 3);
+		return reinterpret_cast<bool*>((uintptr_t)(this) + offset);
 	}
 
 	std::string getType() {
@@ -24,23 +27,51 @@ public:
 	}
 
 	Vec3* Velocity() {
-		return reinterpret_cast<Vec3*>((uintptr_t)(this) + 0x508);
+		static unsigned int offset = NULL;
+		if (offset == NULL) {
+			offset = *reinterpret_cast<int*>(Utils::FindSig("0F 10 89 ? ? ? ? 0F 57 ? F3 0F 10 2D ? ? ? ? 0F 28 C1 0F") + 3);
+		}
+		return reinterpret_cast<Vec3*>((uintptr_t)(this) + offset);
+	}
+
+	Vec3* xyz1_() {
+		static unsigned int offset = NULL;
+		if (offset == NULL) {
+			offset = *reinterpret_cast<int*>(Utils::FindSig("F3 0F 10 81 ? ? ? ? 41 0F 2F") + 4);
+		}
+		return reinterpret_cast<Vec3*>((uintptr_t)(this) + offset);
+	}
+
+	Vec3* xyz2_() {
+		static unsigned int offset = NULL;
+		if (offset == NULL) {
+			offset = *reinterpret_cast<int*>(Utils::FindSig("F3 0F 10 81 ? ? ? ? 41 0F 2F") + 4);
+		}
+		return reinterpret_cast<Vec3*>((uintptr_t)(this) + (offset + 12));
+	}
+
+	Vec2* bodyRots() {
+		static unsigned int offset = NULL;
+		if (offset == NULL) {
+			offset = *reinterpret_cast<int*>(Utils::FindSig("F3 0F 10 89 ? ? ? ? 48 8B FA F3") + 4);
+		}
+		return reinterpret_cast<Vec2*>((uintptr_t)(this) + offset);
 	}
 
 	float* stepHeight() {
-		return reinterpret_cast<float*>((uintptr_t)(this) + 0x240);
+		static unsigned int offset = NULL;
+		if (offset == NULL) {
+			offset = *reinterpret_cast<int*>(Utils::FindSig("F3 0F 10 80 ? ? ? ? C3 CC CC CC 48 8B 41 10 88") + 4);
+		}
+		return reinterpret_cast<float*>((uintptr_t)(this) + offset);
 	}
 
-	bool* inWater() {
-		return reinterpret_cast<bool*>((uintptr_t)(this) + 0x265);
-	}
-
-	int* lookingEntityID() {
-		return reinterpret_cast<int*>((uintptr_t)(this) + 0x10B8);
-	}
-
-	void setFieldOfView(float v) {
-		*(float*)((uintptr_t)(this) + 0x10F0) = v;
+	int* lookingEntityID() { // 48 39 9F ? ? ? ? 0F 95
+		static unsigned int offset = NULL;
+		if (offset == NULL) {
+			offset = *reinterpret_cast<int*>(Utils::FindSig("48 39 9F ? ? ? ? 0F 95") + 3);
+		}
+		return reinterpret_cast<int*>((uintptr_t)(this) + offset);
 	}
 private:
 	virtual void Function0();

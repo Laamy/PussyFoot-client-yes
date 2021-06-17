@@ -6,10 +6,23 @@
 
 class Player : public Actor {
 public:
+	void setFieldOfView(float v) {
+		static unsigned int offset = NULL;
+		if (offset == NULL)
+			offset = *reinterpret_cast<int*>(Utils::FindSig("F3 0F 59 B3 ? ? ? ? 0F") + 4);
+		*(float*)((uintptr_t)(this) + offset) = v;
+	}
+
 	void printToChat(std::string message) {
 		TextHolder t(message);
 		this->displayTextObjectMessage(&t);
 	}
+	/*__int64 getRuntimeId() {
+		static unsigned int offset = NULL;
+		if (offset == NULL)
+			offset = *reinterpret_cast<int*>(Utils::FindSig("48 8B 87 ? ? ? ? C7 45 EF ? ? ? ?") + 3);
+		return *reinterpret_cast<__int64*>((uintptr_t)(this) + offset);
+	}*/
 public:
 	virtual void knockback(Actor*, int, float, float, float, float, float);
 	virtual void resolveDeathLoot(int, __int64 ActorDamageSource);
