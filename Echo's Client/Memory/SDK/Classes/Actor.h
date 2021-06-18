@@ -57,7 +57,7 @@ public:
 	float* stepHeight() {
 		static unsigned int offset = NULL;
 		if (offset == NULL) {
-			offset = *reinterpret_cast<int*>(Utils::FindSig("F3 0F 10 80 ? ? ? ? C3 CC CC CC 48 8B 41 10 88") + 4);
+			offset = *reinterpret_cast<int*>(Utils::FindSig("F3 0F 10 80 ? ? ? ? C3 CC CC CC 48 8B 41 ? 88") + 4);
 		}
 		return reinterpret_cast<float*>((uintptr_t)(this) + offset);
 	}
@@ -70,31 +70,31 @@ public:
 		return reinterpret_cast<int*>((uintptr_t)(this) + offset);
 	}
 
-	BlockSource* getRegionConst() {
+	class BlockSource* getRegionConst() {
 		static unsigned int offset = NULL;
 		if (offset == NULL)
 			offset = *reinterpret_cast<int*>(Utils::FindSig("48 8B 97 ? ? ? ? 48 8B ? ? ? ? ? ? ? 90 48 8B 5D DF") + 3);
 		return *reinterpret_cast<BlockSource**>((uintptr_t)(this) + offset);
 	}
 
-	Dimension* getDimension() {
+	class Dimension* getDimension() {
 		static unsigned int offset = NULL;
 		if (offset == NULL)
 			offset = *reinterpret_cast<int*>(Utils::FindSig("48 8B B8 ? ? ? ? 48 8B BF ? ? ? ? 48 8B 1F 48 3B DF") + 3);
 		return *reinterpret_cast<Dimension**>((uintptr_t)(this) + offset);
 	}
 
-	Level* getLevel() {
+	class Level* getLevel() {
 		static unsigned int offset = NULL;
 		if (offset == NULL)
 			offset = *reinterpret_cast<int*>(Utils::FindSig("48 8B 8F ? ? ? ? 48 8B 11 FF 92 ? ? ? ? 48 8B 8F ? ? ? ? 48 8B") + 3);
 		return *reinterpret_cast<Level**>((uintptr_t)(this) + offset);
 	}
 
-	PlayerInventory* getSupplies() {
+	class PlayerInventory* getSupplies() {
 		static unsigned int offset = NULL;
 		if (offset == NULL)
-			offset = *reinterpret_cast<int*>(Utils::FindSig("48 8B 91 ? ? ? ? 80 BA ? ? ? ? ? ? ? 48 8B 8A ? ? ? ? 8B 52 ? 48 8B 01 48 FF 60 ? 48 ") + 3);
+			offset = *reinterpret_cast<int*>(Utils::FindSig("48 8B 91 ? ? ? ? 80 BA ? ? ? ? ? ? ? 48 8B 8A ? ? ? ? 8B 52 ? 48 8B 01 48 FF 60 ? 48") + 3);
 		return *reinterpret_cast<PlayerInventory**>((uintptr_t)(this) + offset);
 	}
 private:

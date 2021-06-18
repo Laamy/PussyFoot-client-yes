@@ -40,6 +40,7 @@ Client::Client(std::string name) {
 #include "Modules/Module/Nuker.h"
 #include "Modules/Module/ReverseNuker.h"
 #include "Modules/Module/SR_Nuker.h"
+#include "Modules/Module/EmptyModule.h"
 
 /* */
 
@@ -115,7 +116,7 @@ void Client::init() {
 	new Nuker(this, world, "Nuker");
 	new ReverseNuker(this, world, "ReverseNuker");
 	new SR_Nuker(this, world, "SR_Nuker");
-	new Module(this, world, "");
+	new EmptyModule(this, world, "NoMsg");
 
 	new Phase(this, other, "Phase");
 	new Module(this, other, "");

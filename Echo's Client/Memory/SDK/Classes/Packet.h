@@ -61,3 +61,25 @@ public:
 		return vtable;
 	}
 };
+
+class TextPacket : public Packet {
+public:
+    char pad_0008[48]; //0x0008
+    std::string author; //0x0038
+    std::string message; //0x0040
+public:
+
+    TextPacket() {
+        this->VTable = GetVTable();
+    }
+
+    uintptr_t** GetVTable() {
+        static uintptr_t** vtable = nullptr;
+        if (vtable == nullptr) {
+            auto sig = Utils::FindSig("48 8D 05 ? ? ? ? 48 89 01 C6 41 30 ? 48 83 C1 38");
+            int offset = *reinterpret_cast<int*>(sig + 3);
+            vtable = reinterpret_cast<uintptr_t**>(sig + offset + 7);
+        }
+        return vtable;
+    }
+};

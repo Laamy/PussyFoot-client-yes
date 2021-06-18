@@ -24,12 +24,16 @@ public:
 			offset = *reinterpret_cast<int*>(Utils::FindSig("48 8B 81 ? ? ? ? C3 CC CC CC CC CC CC CC CC CC CC CC CC 48 89 91 ? ? ? ?") + 3);
 		return *reinterpret_cast<Player**>((uintptr_t)(this) + offset);
 	}
+
 	class MinecraftGame* minecraftGame() {
 		return *reinterpret_cast<MinecraftGame**>((uintptr_t)(this) + 0x98);
 	}
 
 	class GuiData* guiData() {
-		return *reinterpret_cast<GuiData**>((uintptr_t)(this) + 0x4D8);
+		static unsigned int offset = 0;
+		if (offset == NULL)
+			offset = *reinterpret_cast<int*>(Utils::FindSig("48 8B 81 ? ? ? ? C3 CC CC CC CC CC CC CC CC 48 8B 81 ? ? ? ? C3 CC CC CC CC CC CC CC CC 40 53 48 83 EC ? 48 8B 89 ? ? ? ? 48 8B DA 48 8D") + 3);
+		return *reinterpret_cast<GuiData**>((uintptr_t)(this) + offset);
 	}
 
 	class LoopbackPacketSender* loopbackPacketSender() {
